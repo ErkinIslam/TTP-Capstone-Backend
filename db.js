@@ -6,8 +6,12 @@ const pool = new Pool({
     user: "postgres",
     password: "11598",
     host: "localhost",
-    port: 5432,
-    database: "sandwich_maker"
+    port: process.env.PORT || 5432,
+    database: "sandwich_maker",
+    ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
 });
 
 module.exports = pool;
