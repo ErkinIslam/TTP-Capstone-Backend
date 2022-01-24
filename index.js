@@ -48,7 +48,7 @@ app.get("/ingredients",async (req, res) => {
 })
 
 //insert an ingredient into db
-app.post("/ingredients/:type/:ingr",async (req, res) => {
+app.post("/ingredients/:type/:ingr", async (req, res) => {
     try {
         const {type} = req.params.type;
         const {ingr} = req.params.ingr;
@@ -67,33 +67,63 @@ app.post("/ingredients/:type/:ingr",async (req, res) => {
 //get an ingredients id based off description 
 // example get beef id by entering beef
 
+
 //get all ingredients off one type
-
-
-//==//
-
-//====SANDWICH ROUTES====//
-
-//create sandwich
-app.post("/sandwiches/:uid", async (req, res) => {
+app.get("/ingredients/:type",async (req, res) => {
     try {
-        const {uid} = req.params;
-
-        //create a new sandwich in user sandwich
-        const newSandwich = await pool.query(
-          //  "INSERT INTO "
-        )
-
-        //that id needs to be used in the sandwich ingredients table 
-        //insert into sandwich ingredients the ingredients used 
-
-        //need ingredient ids...
-        //put params into an arr and loop over all ingrediens(params) untill all are used in an insert query ?
+        const {type} = req.params;
+        const allIngredients = await pool.query(
+            "SELECT * FROM ingredients WHERE ing_type = $1", [type]
+        );
+        res.json(allIngredients.rows);
 
     } catch (error) {
         console.error(error.message)
     }
 })
+
+//==//
+
+//====SANDWICH ROUTES====//
+
+//create empty sandwich
+app.post("/sandwiches/:uid/:sandwich_name", async (req, res) => {
+    try {
+        const {uid} = req.params.uid;
+        const {s_name} = req.params.sandwich_name;
+
+        //create a new sandwich in user sandwich
+        const newSandwich = await pool.query(
+            "INSERT INTO user_sandwich (sandwich_name, uid) VALUES ($1, $2) RETURNING *", [s_name, uid]
+        );
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
+//populate that sandwich with ingrendients
+
+//how to pass all the given ingredients into this as parameters...
+app.post("/sandwiches/:sandwich_id/", async (req, res) => {
+    try {
+        const {uid} = req.params.uid;
+        const {s_name} = req.params.sandwich_name;
+
+        //insert into sandwich ingredients the ingredients used 
+
+        //need ingredient ids...
+        //put params into an arr and loop over all ingrediens(params) untill all are used in an insert query ?
+
+        const newSandwich = await pool.query(  
+        ""
+        );
+    } catch (error) {
+        console.error(error.message)
+    }
+})
+
+  //that id needs to be used in the sandwich ingredients table 
+        
 
 //get all sandwiches made by the user
 
