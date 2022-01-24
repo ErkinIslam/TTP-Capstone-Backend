@@ -8,10 +8,11 @@ const pool = new Pool({
     host: "localhost",
     port: process.env.PORT || 5432,
     database: "sandwich_maker",
-    ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
+    // ssl: {
+    //    //this is for heroku from andrea from slack cohort3
+    //     require: true,
+    //     rejectUnauthorized: false
+    //   }
 });
 
 module.exports = pool;

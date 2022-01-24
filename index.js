@@ -48,7 +48,7 @@ app.get("/ingredients",async (req, res) => {
 })
 
 //insert an ingredient into db
-app.post("/ingredients/:type&:ingr",async (req, res) => {
+app.post("/ingredients/:type/:ingr",async (req, res) => {
     try {
         const {type} = req.params.type;
         const {ingr} = req.params.ingr;
@@ -62,8 +62,6 @@ app.post("/ingredients/:type&:ingr",async (req, res) => {
         console.error(error.message)
     }
 })
-
-
 
 
 //get an ingredients id based off description 
