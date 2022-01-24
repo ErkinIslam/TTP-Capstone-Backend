@@ -1,37 +1,39 @@
 CREATE DATABASE sandwich_maker;
 
-CREATE TABLE "user_profile" (
-  "user_id" serial(pk),
-  "username" varchar(255),
-  "user_email" varchar(255),
-  "password" varchar(255)
+CREATE TABLE user_profile (
+  user_id SERIAL PRIMARY KEY,
+  username varchar(255) NOT NULL,
+  user_email varchar(255) NOT NULL,
+  user_password varchar(255) NOT NULL
 );
 
-CREATE TABLE "user_sandwich" (
-  "sandwich_id" serial(pk),
-  "sandwich_name" varchar(255),
-  "user_id" (fk referencing user_id),
-  CONSTRAINT "FK_user_sandwich.user_id"
-    FOREIGN KEY ("user_id")
-      REFERENCES "user_profile"("user_id")
+CREATE TABLE user_sandwich (
+  sandwich_id SERIAL PRIMARY KEY,
+  sandwich_name varchar(255),
+  uid INTEGER,
+  CONSTRAINT FK_user_id
+    FOREIGN KEY (uid)
+      REFERENCES user_profile(user_id)
 );
 
-CREATE TABLE "sandwich_ingredients" (
-  "item_id" serial(pk),
-  "used_in" (fk references sandwich_id,
-  "ingredient_id" (fk referencing ing_id),
-  CONSTRAINT "FK_sandwich_ingredients.item_id"
-    FOREIGN KEY ("item_id")
-      REFERENCES "user_sandwich"("sandwich_id")
+CREATE TABLE ingredients (
+  ing_id SERIAL PRIMARY KEY,
+  ing_type varchar(255),
+  ing_name varchar(255),
+  image_path varchar(255)
 );
 
-CREATE TABLE "ingedients" (
-  "ing_id" serial(pk),
-  "ing_type" varchar(255),
-  "ing_name" varchar(255),
-  "image_path" varchar(255),
-  CONSTRAINT "FK_ingedients.ing_id"
-    FOREIGN KEY ("ing_id")
-      REFERENCES "sandwich_ingredients"("ingredient_id")
+-- should have another table that is ingredient types 
+CREATE TABLE sandwich_ingredients(
+  item_id SERIAL PRIMARY KEY,
+  used_in INTEGER,
+  CONSTRAINT FK_sandwich_id
+    FOREIGN KEY (used_in)
+      REFERENCES user_sandwich(sandwich_id),
+  ingredient_id INTEGER,
+  CONSTRAINT FK_ingredient
+    FOREIGN KEY (ingredient_id)
+      REFERENCES ingredients(ing_id)
 );
+
 
