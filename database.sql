@@ -23,7 +23,7 @@ CREATE TABLE ingredients (
   image_path varchar(255)
 );
 
-
+-- should have another table that is ingredient types 
 CREATE TABLE sandwich_ingredients(
   item_id SERIAL PRIMARY KEY,
   used_in INTEGER,
