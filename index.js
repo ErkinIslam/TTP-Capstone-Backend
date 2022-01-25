@@ -102,7 +102,6 @@ app.post("/sandwiches/:uid/:sandwich_name", async (req, res) => {
 })
 
 //populate that sandwich with ingrendients
-
 //how to pass all the given ingredients into this as parameters...
 app.post("/sandwiches/:sandwich_id/", async (req, res) => {
     try {
@@ -113,7 +112,7 @@ app.post("/sandwiches/:sandwich_id/", async (req, res) => {
 
         //need ingredient ids...
         //put params into an arr and loop over all ingrediens(params) untill all are used in an insert query ?
-
+//that id needs to be used in the sandwich ingredients table 
         const newSandwich = await pool.query(  
         ""
         );
@@ -122,11 +121,32 @@ app.post("/sandwiches/:sandwich_id/", async (req, res) => {
     }
 })
 
-  //that id needs to be used in the sandwich ingredients table 
+
         
 
 //get all sandwiches made by the user
+app.get("sandwiches/:uid" , async (req, res) => {
+    try{
+        //get sandwich ids
+        const {uid}  = req.params;
+        const sandwich_ids = await pool.query(
+            "SELECT * FROM user_sandwich WHERE user_id = $1",[uid]
+        )
+        res.json(sandwich_ids.rows);
 
+
+        //use those sandwich ids to find the ingredient lists for them 
+        const sandwich_ingr = await pool.query(
+            "SELECT * FROM sandwich_ingredients WHERE used_in = $1", [sandwich_ids.rows]
+        )
+        //might need to use a loop above
+
+        res.json(sandwich_ingr);
+        
+    }catch (error) {
+        console.error(error.message)
+    }
+})
 
 //get a specific sandwich made by the user
 
