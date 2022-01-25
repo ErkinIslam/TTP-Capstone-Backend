@@ -100,7 +100,7 @@ app.post("/sandwiches/:uid/:sandwich_name", async (req, res) => {
         console.error(error.message)
     }
 })
-
+//=======================================================================================
 //populate that sandwich with ingrendients
 //how to pass all the given ingredients into this as parameters...
 app.post("/sandwiches/:sandwich_id/:ingredient", async (req, res) => {
@@ -120,6 +120,8 @@ app.post("/sandwiches/:sandwich_id/:ingredient", async (req, res) => {
         console.error(error.message)
     }
 })
+
+//==============================================================================================
 
 
 //get all sandwiches made by the user
