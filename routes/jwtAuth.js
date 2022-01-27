@@ -5,13 +5,14 @@ const pool = require("../db");
 const validInfo = require("../middleware/validInfo");
 const jwtGenerator = require("../utils/jwtGenerator");
 const authorize = require("../middleware/authorization");
+const authorization = require("../middleware/authorization");
 
 router.post("/register", validInfo, async (req, res) => {
-  const { email, name, password } = req.body;
+  const { user_email, username, user_password } = req.body;
 
   try {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
-      email
+    const user = await pool.query("SELECT * FROM user_profile WHERE user_email = $1", [
+      user_email
     ]);
 
     if (user.rows.length > 0) {
@@ -19,11 +20,11 @@ router.post("/register", validInfo, async (req, res) => {
     }
 
     const salt = await bcrypt.genSalt(10);
-    const bcryptPassword = await bcrypt.hash(password, salt);
+    const bcryptPassword = await bcrypt.hash(user_password, salt);
 
     let newUser = await pool.query(
-      "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
-      [name, email, bcryptPassword]
+      "INSERT INTO user_profile (username, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
+      [username, user_email, bcryptPassword]
     );
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
@@ -36,11 +37,11 @@ router.post("/register", validInfo, async (req, res) => {
 });
 
 router.post("/login", validInfo, async (req, res) => {
-  const { email, password } = req.body;
+  const { user_email, user_password } = req.body;
 
   try {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
-      email
+    const user = await pool.query("SELECT * FROM user_profile WHERE user_email = $1", [
+      user_email
     ]);
 
     if (user.rows.length === 0) {
@@ -48,7 +49,7 @@ router.post("/login", validInfo, async (req, res) => {
     }
 
     const validPassword = await bcrypt.compare(
-      password,
+      user_password,
       user.rows[0].user_password
     );
 
@@ -63,7 +64,7 @@ router.post("/login", validInfo, async (req, res) => {
   }
 });
 
-router.post("/verify", authorize, (req, res) => {
+router.post("/verify", authorization, (req, res) => {
   try {
     res.json(true);
   } catch (err) {

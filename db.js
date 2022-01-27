@@ -4,10 +4,10 @@ const Pool = require("pg").Pool;
 //rn i have it with my info
 const pool = new Pool({
     user: "postgres",
-    password: "11598",
+    password: "Veeny123",
     host: "localhost",
     port: process.env.PORT || 5432,
-    database: "sandwich_maker",
+    database: "postgres",
     // ssl: {
     //    //this is for heroku from andrea from slack cohort3
     //     require: true,

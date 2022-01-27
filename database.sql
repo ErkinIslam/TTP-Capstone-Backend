@@ -13,7 +13,7 @@ CREATE TABLE user_sandwich (
   uid INTEGER,
   CONSTRAINT FK_user_id
     FOREIGN KEY (uid)
-      REFERENCES user_profile(user_id)
+      REFERENCES user_profile(user_id) 
 );
 
 CREATE TABLE ingredients (
@@ -29,11 +29,11 @@ CREATE TABLE sandwich_ingredients(
   used_in INTEGER,
   CONSTRAINT FK_sandwich_id
     FOREIGN KEY (used_in)
-      REFERENCES user_sandwich(sandwich_id),
+      REFERENCES user_sandwich(sandwich_id)
+        ON DELETE CASCADE,
   ingredient_id INTEGER,
   CONSTRAINT FK_ingredient
     FOREIGN KEY (ingredient_id)
       REFERENCES ingredients(ing_id)
+       ON DELETE CASCADE
 );
-
-
