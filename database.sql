@@ -37,5 +37,3 @@ CREATE TABLE sandwich_ingredients(
       REFERENCES ingredients(ing_id)
        ON DELETE CASCADE
 );
-
-

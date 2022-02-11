@@ -1,4 +1,4 @@
-const express = require ("express");
+const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
@@ -19,7 +19,6 @@ app.use(cors());
 app.use(express.json()); //req.body
 //====//
 
-
 //====ROUTES====//
 
 //register and login routes
@@ -34,7 +33,7 @@ app.use("/userHomePage", require("./routes/userHomePage"));
 //====INGREDIENT ROUTES====//
 
 //get all ingredients
-app.get("/ingredients",async (req, res) => {
+app.get("/ingredients", async (req, res) => {
     try {
         const allIngredients = await pool.query(
             "SELECT * FROM ingredients"
@@ -118,7 +117,7 @@ app.post("/sandwiches/sandwich/:sandwich_id/:ingredient_id", async (req, res) =>
 app.get("/sandwiches/:uid" , async (req, res) => {
     try{
         //get sandwich ids
-        const {uid}  = req.params;
+        const { uid } = req.params;
         const sandwich_ids = await pool.query(
             "SELECT * FROM user_sandwich WHERE uid = $1", [uid]
         )
@@ -158,7 +157,7 @@ app.delete("/sandwiches/sandwich/:sandwich_id/:ingredient_id", async (req, res) 
 })
 
 //delete a specific sandwich made by id
-app.delete("/sandwiches/sandwich/sandwich_id", async (req, res) => {
+app.delete("/sandwiches/sandwich/:sandwich_id", async (req, res) => {
     try{
         const sandwich_id = req.params.sandwich_id;
         const sandwich_ingr = await pool.query(
