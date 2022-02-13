@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const authorize = require("../middleware/authorization");
+const authorization = require("../middleware/authorization");
 const pool = require("../db");
 
 

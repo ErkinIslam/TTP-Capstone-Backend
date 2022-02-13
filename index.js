@@ -25,7 +25,7 @@ app.use(express.json()); //req.body
 app.use("/auth", require("./routes/jwtAuth"));
 
 //user home  route
-app.use("/userHomePage", require("./routes/userHomePage"));
+app.use("/userHome", require("./routes/userHome"));
 
 //==//
 

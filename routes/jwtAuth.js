@@ -4,9 +4,9 @@ const bcrypt = require("bcrypt");
 const pool = require("../db");
 const validInfo = require("../middleware/validInfo");
 const jwtGenerator = require("../utils/jwtGenerator");
-const authorize = require("../middleware/authorization");
 const authorization = require("../middleware/authorization");
 
+//register
 router.post("/register", validInfo, async (req, res) => {
   const { user_email, username, user_password } = req.body;
 
@@ -36,6 +36,8 @@ router.post("/register", validInfo, async (req, res) => {
   }
 });
 
+
+//login
 router.post("/login", validInfo, async (req, res) => {
   const { user_email, user_password } = req.body;
 
@@ -45,7 +47,7 @@ router.post("/login", validInfo, async (req, res) => {
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json("Invalid Credential");
+      return res.status(401).json("Email is incorrect");
     }
 
     const validPassword = await bcrypt.compare(
@@ -54,7 +56,7 @@ router.post("/login", validInfo, async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json("Invalid Credential");
+      return res.status(401).json("Password is incorrect");
     }
     const jwtToken = jwtGenerator(user.rows[0].user_id);
     return res.json({ jwtToken });
@@ -64,13 +66,15 @@ router.post("/login", validInfo, async (req, res) => {
   }
 });
 
-router.post("/is-verify", authorization, (req, res) => {
+//verification
+router.get("/is-verify", authorization, async (req, res) => {
   try {
-    res.json(true);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error3");
+      res.json(true);
+  }catch (error) {
+      
+      console.error(error.message)
+      res.status(500).send("Server Error");
   }
-});
+})
 
 module.exports = router;
