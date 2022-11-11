@@ -41,4 +41,4 @@ Chris Pipitone: Team Leader, Back-end tech
 Sebastian Stec: Back-end tech
 Kevin Levaja: Front-end tech
 Marco Korcak: Front-end tech
-Erkin Islam: Back-end tech
+Erkin Islam: Front-end tech
